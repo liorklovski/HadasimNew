@@ -1,0 +1,29 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.home .home-bg-img {
+  position: absolute;
+  height: 90%;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.home .navy-text {
+  white-space: nowrap;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 7.5rem;
+}
+
+.home .navy-text .app-text {
+  white-space: nowrap;
+  text-align: center;
+  font-size: 3.5rem;
+}
