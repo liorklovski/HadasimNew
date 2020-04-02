@@ -1,11 +1,10 @@
-const RegularOptions = ({ rowsNum = 15, isDisabled = false }) => {
+const RegularOptions = ({ rowsNum = 15 }) => {
   return {
     actionsCellStyle: {
-      paddingRight: "0.5vw",
-      justifyContent: "center",
-      display: "flex"
+      // paddingRight: "0.5vw",
+      justifyContent: "center"
+      // display: "flex"
     },
-    disabled: isDisabled,
     search: false,
     Selection: true,
     sorting: false,
@@ -15,14 +14,14 @@ const RegularOptions = ({ rowsNum = 15, isDisabled = false }) => {
     maxBodyHeight: 300,
     showTitle: false,
     headerStyle: {
-      minWidth: "6vw",
+      // minWidth: "6vw",
       textAlign: "center",
-      fontFamily: "Heebo",
-      fontSize: "1.2vw",
-      flexDirection: "initial"
+      fontFamily: "Heebo"
+      // fontSize: "1.2vw",
+      // flexDirection: "initial"
     },
     rowStyle: {
-      background: "rgba(251, 251, 253, 0.58)",
+      // background: "rgba(251, 251, 253, 0.58)",
       fontFamily: "Heebo"
     }
   };

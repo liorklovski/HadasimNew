@@ -89,6 +89,9 @@ class TemplateView extends Component {
       [name]: event.target.value
     });
   };
+  onUpdateSteps = steps => {
+    this.setState({ steps: steps });
+  };
   render() {
     // Get cover stuff on save and edit send subtitle ,loading icon, left side button
     // Call fields
@@ -117,6 +120,7 @@ class TemplateView extends Component {
             />
           </div>
           <TemplateTable
+            onUpdateSteps={this.onUpdateSteps}
             data={this.state.steps}
             isDisabled={this.state.isDisabled}
             rowsNum={this.state.numRows}
