@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // Components Import
 import TemplateTable from "./TemplateTable/TemplateTable";
 import TemplateFields from "./TemplateFields/TemplateFields";
+import APICalls from "../APICalls/APICalls";
 
 // Frame import
 import FrameView from "../Dynamic/FrameView/FrameView";
@@ -35,28 +36,28 @@ class TemplateView extends Component {
     if (this.props.match.params.id === undefined) {
       this.setState({ isDisabled: false, id: this.props.match.params.id });
     } else {
-      // const restUrl =  consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
-      // let res = await axios.get(restUrl, { withCredentials: true })
-      // const data = res.data ****
-      // const data = getDataByRest({url: consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`})
-      // this.setState({
-      //   id: this.props.match.params.id,
-      //   name: data.GEN_DET.DESCRIPTION,
-      //   long: data.GEN_DET.ZZ_YTIMECOMMENT,
-      //   status: data.GEN_DET.STATUS,
-      //   category: data.GEN_DET.CATEGORY,
-      //   soldier: data.GEN_DET.SOLDIER,
-      //   templGuid: data.GEN_DET.NEW_GUID,
-      //   steps: data.STEPS
-      // })
-      // this.state.numRows = res.data.STEPS.length
+      const data = APICalls.getDataByRest({
+        url:
+          consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
+      });
+      this.setState({
+        id: this.props.match.params.id,
+        name: data.GEN_DET.DESCRIPTION,
+        long: data.GEN_DET.ZZ_YTIMECOMMENT,
+        status: data.GEN_DET.STATUS,
+        category: data.GEN_DET.CATEGORY,
+        soldier: data.GEN_DET.SOLDIER,
+        templGuid: data.GEN_DET.NEW_GUID,
+        steps: data.STEPS
+      });
+      this.setState({ numRows: data.STEPS.length });
     }
   };
 
   handleOnSave = () => {
     this.setState({ isLoading: true });
 
-    var reatUrlSave = consts.updateHadasDet;
+    var urlSave = consts.updateHadasDet;
 
     const paramsDet = {
       GEN_DET: {
@@ -69,15 +70,14 @@ class TemplateView extends Component {
       OBJECT_ID: this.props.match.params.id,
       STEPS: this.state.steps
     };
-    // let resSave = await axios.post(reatUrlSave, paramsDet, {
-    //     withCredentials: true
-    //   })
-    //   const data = resSave.data ****
 
-    //const data = saveDataByRest({url: reatUrlSave, dataToSave: paramsDet})
-    //   this.setState({
-    //     templGuid: data.GEN_DET.GUID,
-    //   })
+    const data = APICalls.saveDataByRest({
+      url: urlSave,
+      dataToSave: paramsDet
+    });
+    this.setState({
+      templGuid: data.GEN_DET.GUID
+    });
     this.setState({ isLoading: false, isDisabled: true });
   };
 

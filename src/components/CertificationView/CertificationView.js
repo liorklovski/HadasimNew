@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // Components Import
 import CertificationTable from "./CertificationTable/CertificationTable";
 import CertificationFields from "./CertificationFields/CertificationFields";
+import APICalls from "../APICalls/APICalls";
 
 // CSS:
 
@@ -30,30 +31,30 @@ class TemplateView extends Component {
 
   componentDidMount = () => {
     const bpRest = consts.usersGet;
-    // let resBp = await axios.get(bpRest, { withCredentials: true })
-    // const bpData = resBp.data ****
-    // const bpData = getDataByRest({url: bpRest})
-    // bpData.forEach(d => {
-    //   columnDet[d.OBJID] = d.SHORT
-    // })
 
-    // const restUrl =  consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
-    // let res = await axios.get(restUrl, { withCredentials: true })
-    // const data = res.data ****
-    // const data = getDataByRest({url: consts.getCerDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`})
-    //   this.setState({
-    //     name: data.GEN_DET.DESCRIPTION,
-    //     soliderName: data.GEN_DET.SOLDIER_NAME,
-    //     soldierId: data.GEN_DET.SOLDIER_ID,
-    //     grade: data.GEN_DET.GRADE,
-    //     startDate: data.GEN_DET.START_DATE,
-    //     endDate: data.GEN_DET.END_DATE,
-    //     extension: data.GEN_DET.EXTEN,
-    //     signature: data.GEN_DET.IN_CHARGE,
-    //     signatureId: data.GEN_DET.CHARGE_ID,
-    //     steps: data.STEPS
-    //   })
-    // this.state.numRows = res.data.STEPS.length
+    const bpData = APICalls.getDataByRest({ url: bpRest });
+    var columnDet;
+    bpData.forEach(d => {
+      columnDet[d.OBJID] = d.SHORT;
+    });
+    this.setState({ columnDet: columnDet });
+
+    const data = APICalls.getDataByRest({
+      url: consts.getCerDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
+    });
+    this.setState({
+      name: data.GEN_DET.DESCRIPTION,
+      soliderName: data.GEN_DET.SOLDIER_NAME,
+      soldierId: data.GEN_DET.SOLDIER_ID,
+      grade: data.GEN_DET.GRADE,
+      startDate: data.GEN_DET.START_DATE,
+      endDate: data.GEN_DET.END_DATE,
+      extension: data.GEN_DET.EXTEN,
+      signature: data.GEN_DET.IN_CHARGE,
+      signatureId: data.GEN_DET.CHARGE_ID,
+      steps: data.STEPS
+    });
+    this.setState({ numRows: data.STEPS.length });
   };
 
   handleOnSave = () => {
@@ -73,16 +74,15 @@ class TemplateView extends Component {
       OBJECT_ID: this.props.match.params.id,
       STEPS: this.state.steps
     };
-    // let resSave = await axios.post(restUrlSave, paramsDet, {
-    //     withCredentials: true
-    //   })
-    //   const data = resSave.data ****
 
-    //const data = saveDataByRest({url: restUrlSave, dataToSave: paramsDet})
-    // this.setState({
-    //     steps: data.STEPS,
-    //     endDate: data.GEN_DET.END_DATE
-    //   })
+    const data = APICalls.saveDataByRest({
+      url: restUrlSave,
+      dataToSave: paramsDet
+    });
+    this.setState({
+      steps: data.STEPS,
+      endDate: data.GEN_DET.END_DATE
+    });
     this.setState({ isLoading: false, isDisabled: true });
   };
 
@@ -95,9 +95,6 @@ class TemplateView extends Component {
     });
   };
   render() {
-    // Get cover stuff on save and edit send subtitle ,loading icon, left side button
-    // Call fields
-    // Call table
     return (
       <div>
         <FrameView

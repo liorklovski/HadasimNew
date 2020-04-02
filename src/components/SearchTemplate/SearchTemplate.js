@@ -8,24 +8,26 @@ import { Paper } from "@material-ui/core";
 
 // CSS import
 import "./SearchTemplate.css";
+import APICalls from "../APICalls/APICalls";
 
 const SearchTemplate = () => {
-  const [data, setData] = useState([
-    { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" }
-  ]);
   const getSearchData = () => {
-    // axios call
+    var data = APICalls.getDataByRest({
+      url: consts.searchHadasimUrl
+    });
+
+    //TEMP
+    if (!data) {
+      data = [{ DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" }];
+    }
+    return data;
   };
   const handleClick = (event, row) => {
     return process.env.PUBLIC_URL + "/TemplateView/" + row.OBJECT_ID;
   };
   return (
     <Paper className="search-page" elevation={3}>
-      <Search
-        restUrl={consts.searchHadasimUrl}
-        data={data}
-        handleClick={handleClick}
-      />
+      <Search data={getSearchData} handleClick={handleClick} />
     </Paper>
   );
 };
