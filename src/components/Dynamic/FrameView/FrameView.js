@@ -1,22 +1,22 @@
 import React from "react";
 import { CircularProgress, Button, ButtonGroup } from "@material-ui/core";
-import DialogField from "../FieldBlock/FieldTypes/DialogField";
 
 // Icons
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
-  Save as SaveIcon,
-  PersonAdd as PersonAddIcon
+  Save as SaveIcon
 } from "@material-ui/icons";
 
 // CSS:
 import { Grid, Cell } from "styled-css-grid";
+import SoldierTableView from "../../SoldierTableView/SoldierTableView";
 
 const rows = "1fr";
 const columns = "1fr 1fr 1fr";
 
 const FrameView = ({
+  templGuid = "",
   isLoading = false,
   isCertification = false,
   handleOnSave,
@@ -59,8 +59,7 @@ const FrameView = ({
             {isCertification ? (
               <div />
             ) : (
-              // <SoldierDialog templID={templGuid} />
-              <DialogField type="button" icon={PersonAddIcon} />
+              <SoldierTableView templGuid={templGuid} />
             )}
           </div>
         </Cell>

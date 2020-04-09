@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // Components Import
 import TemplateTable from "./TemplateTable/TemplateTable";
 import TemplateFields from "./TemplateFields/TemplateFields";
-import APICalls from "../APICalls/APICalls";
+import { getDataByRest, saveDataByRest } from "../APICalls/APICalls";
 
 // Frame import
 import FrameView from "../Dynamic/FrameView/FrameView";
@@ -36,21 +36,21 @@ class TemplateView extends Component {
     if (this.props.match.params.id === undefined) {
       this.setState({ isDisabled: false, id: this.props.match.params.id });
     } else {
-      const data = APICalls.getDataByRest({
-        url:
-          consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
-      });
-      this.setState({
-        id: this.props.match.params.id,
-        name: data.GEN_DET.DESCRIPTION,
-        long: data.GEN_DET.ZZ_YTIMECOMMENT,
-        status: data.GEN_DET.STATUS,
-        category: data.GEN_DET.CATEGORY,
-        soldier: data.GEN_DET.SOLDIER,
-        templGuid: data.GEN_DET.NEW_GUID,
-        steps: data.STEPS
-      });
-      this.setState({ numRows: data.STEPS.length });
+      // const data = getDataByRest({
+      //   url:
+      //     consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
+      // });
+      // this.setState({
+      //   id: this.props.match.params.id,
+      //   name: data.GEN_DET.DESCRIPTION,
+      //   long: data.GEN_DET.ZZ_YTIMECOMMENT,
+      //   status: data.GEN_DET.STATUS,
+      //   category: data.GEN_DET.CATEGORY,
+      //   soldier: data.GEN_DET.SOLDIER,
+      //   templGuid: data.GEN_DET.NEW_GUID,
+      //   steps: data.STEPS
+      // });
+      // this.setState({ numRows: data.STEPS.length });
     }
   };
 
@@ -71,13 +71,13 @@ class TemplateView extends Component {
       STEPS: this.state.steps
     };
 
-    const data = APICalls.saveDataByRest({
-      url: urlSave,
-      dataToSave: paramsDet
-    });
-    this.setState({
-      templGuid: data.GEN_DET.GUID
-    });
+    // const data = saveDataByRest({
+    //   url: urlSave,
+    //   dataToSave: paramsDet
+    // });
+    // this.setState({
+    //   templGuid: data.GEN_DET.GUID
+    // });
     this.setState({ isLoading: false, isDisabled: true });
   };
 
@@ -100,6 +100,7 @@ class TemplateView extends Component {
       <div>
         <Paper className="form-page" elevation={3}>
           <FrameView
+            templGuid={this.state.templGuid}
             isLoading={this.state.isLoading}
             isDisabled={this.state.isDisabled}
             handleOnEdit={this.handleOnEdit}

@@ -3,7 +3,8 @@ import React, { Component } from "react";
 // Components Import
 import CertificationTable from "./CertificationTable/CertificationTable";
 import CertificationFields from "./CertificationFields/CertificationFields";
-import APICalls from "../APICalls/APICalls";
+import { getDataByRest, saveDataByRest } from "../APICalls/APICalls";
+import moment from "moment";
 
 // CSS:
 
@@ -18,43 +19,42 @@ class TemplateView extends Component {
     soliderName: "",
     signatureId: "",
     signature: "",
-    startDate: "",
-    endDate: "",
+    startDate: moment(new Date()).subtract(1, "days"),
+    endDate: moment(new Date()),
     grade: "",
     soldierId: "00000000",
-    steps: [],
+    isSignatureDialogOpen: false,
+    steps: [{ DESCRIPTION: "df" }],
     numRows: "1",
-    columnDet: [],
+    columnDet: {},
     isDisabled: true,
     isLoading: false
   };
 
   componentDidMount = () => {
-    const bpRest = consts.usersGet;
-
-    const bpData = APICalls.getDataByRest({ url: bpRest });
-    var columnDet;
-    bpData.forEach(d => {
-      columnDet[d.OBJID] = d.SHORT;
-    });
-    this.setState({ columnDet: columnDet });
-
-    const data = APICalls.getDataByRest({
-      url: consts.getCerDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
-    });
-    this.setState({
-      name: data.GEN_DET.DESCRIPTION,
-      soliderName: data.GEN_DET.SOLDIER_NAME,
-      soldierId: data.GEN_DET.SOLDIER_ID,
-      grade: data.GEN_DET.GRADE,
-      startDate: data.GEN_DET.START_DATE,
-      endDate: data.GEN_DET.END_DATE,
-      extension: data.GEN_DET.EXTEN,
-      signature: data.GEN_DET.IN_CHARGE,
-      signatureId: data.GEN_DET.CHARGE_ID,
-      steps: data.STEPS
-    });
-    this.setState({ numRows: data.STEPS.length });
+    // const bpRest = consts.usersGet;
+    // const bpData = getDataByRest({ url: bpRest });
+    // var columnsDet = {};
+    // bpData.forEach(d => {
+    //   columnsDet[d.OBJID] = d.SHORT;
+    // });
+    // this.setState({ columnsDet: columnsDet });
+    // const data = getDataByRest({
+    //   url: consts.getCerDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
+    // });
+    // this.setState({
+    //   name: data.GEN_DET.DESCRIPTION,
+    //   soliderName: data.GEN_DET.SOLDIER_NAME,
+    //   soldierId: data.GEN_DET.SOLDIER_ID,
+    //   grade: data.GEN_DET.GRADE,
+    //   startDate: data.GEN_DET.START_DATE,
+    //   endDate: data.GEN_DET.END_DATE,
+    //   extension: data.GEN_DET.EXTEN,
+    //   signature: data.GEN_DET.IN_CHARGE,
+    //   signatureId: data.GEN_DET.CHARGE_ID,
+    //   steps: data.STEPS
+    // });
+    // this.setState({ numRows: data.STEPS.length });
   };
 
   handleOnSave = () => {
@@ -75,14 +75,15 @@ class TemplateView extends Component {
       STEPS: this.state.steps
     };
 
-    const data = APICalls.saveDataByRest({
-      url: restUrlSave,
-      dataToSave: paramsDet
-    });
-    this.setState({
-      steps: data.STEPS,
-      endDate: data.GEN_DET.END_DATE
-    });
+    // const data = saveDataByRest({
+    //   url: restUrlSave,
+    //   dataToSave: paramsDet
+    // });
+    // this.setState({
+    //   steps: data.STEPS,
+    //   endDate: data.GEN_DET.END_DATE
+    // });
+
     this.setState({ isLoading: false, isDisabled: true });
   };
 
@@ -93,6 +94,28 @@ class TemplateView extends Component {
     this.setState({
       [name]: event.target.value
     });
+  };
+  handleDateChange = name => date => {
+    this.setState({
+      [name]: date
+    });
+  };
+  onUpdateSteps = steps => {
+    this.setState({ steps: steps });
+  };
+  handleOpenSignatureDialog = () => {
+    this.setState({ isSignatureDialogOpen: true });
+  };
+  handleCloseSignatureDialog = () => {
+    this.setState({ isSignatureDialogOpen: false });
+  };
+  handleSignatureDialogChange = (event, row) => {
+    this.setState({
+      signatureId: row.OBJECT_ID, //row.OBJID,
+      signature: row.DESCRIPTION, //row.SHORT,
+      isSignatureDialogOpen: false
+    });
+    return false;
   };
   render() {
     return (
@@ -105,9 +128,15 @@ class TemplateView extends Component {
           handleOnSave={this.handleOnSave}
         />
         <CertificationFields
+          isOpen={this.state.isSignatureDialogOpen}
+          onOpenDialog={this.handleOpenSignatureDialog}
+          onCloseDialog={this.handleCloseSignatureDialog}
+          onChangeDialog={this.handleSignatureDialogChange}
           onChange={this.handleChangeWithName}
+          handleDateChange={this.handleDateChange}
           isDisabled={this.state.isDisabled}
           props={{
+            signature: this.state.signature,
             signatureId: this.state.signatureId,
             soldierId: this.state.soldierId,
             startDate: this.state.startDate,
@@ -117,6 +146,7 @@ class TemplateView extends Component {
           }}
         />
         <CertificationTable
+          onUpdateSteps={this.onUpdateSteps}
           columnsDet={this.state.columnsDet}
           data={this.state.steps}
           isDisabled={this.state.isDisabled}

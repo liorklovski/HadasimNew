@@ -8,18 +8,17 @@ import { Paper } from "@material-ui/core";
 
 // CSS import
 import "./SearchTemplate.css";
-import APICalls from "../APICalls/APICalls";
+import { getDataByRest } from "../APICalls/APICalls";
 
 const SearchTemplate = () => {
   const getSearchData = () => {
-    var data = APICalls.getDataByRest({
-      url: consts.searchHadasimUrl
-    });
+    //   var data = getDataByRest({
+    //     url: consts.searchHadasimUrl
+    //   });
 
     //TEMP
-    if (!data) {
-      data = [{ DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" }];
-    }
+    var data = [{ DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" }];
+    // TEMP
     return data;
   };
   const handleClick = (event, row) => {
@@ -27,7 +26,7 @@ const SearchTemplate = () => {
   };
   return (
     <Paper className="search-page" elevation={3}>
-      <Search data={getSearchData} handleClick={handleClick} />
+      <Search data={getSearchData()} handleClick={handleClick} />
     </Paper>
   );
 };

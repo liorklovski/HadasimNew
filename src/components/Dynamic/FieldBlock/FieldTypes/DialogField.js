@@ -5,28 +5,36 @@ import {
   TextField,
   Button,
   InputAdornment,
-  DialogActions
+  DialogActions,
+  DialogContent
 } from "@material-ui/core";
 
 const DialogField = ({
   value,
-  type,
+  onOpen,
+  onClose,
+  isOpen,
+  dialogType,
   handleOk,
+  // onChange,
+  // onRowClicked,
   icon: Icon,
   contentView: ContentView,
   dialogOptions = [],
   dialogActions,
   ...others
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isDialogOpen, setIsDialogOpen] = useState(isOpen);
 
-  const openDialog = () => {
-    setIsOpen(true);
-  };
+  // const openDialog = () => {
+  //   if (!others.disabled) {
+  //     setIsOpen(true);
+  //   }
+  // };
 
-  const closeDialog = () => {
-    setIsOpen(false);
-  };
+  // const closeDialog = () => {
+  //   setIsOpen(false);
+  // };
 
   const dialogTypes = {
     text: {
@@ -34,9 +42,7 @@ const DialogField = ({
       props: {
         InputProps: {
           endAdornment: (
-            <InputAdornment position="end">
-              <Icon />
-            </InputAdornment>
+            <InputAdornment position="end">{<Icon />}</InputAdornment>
           )
         }
       }
@@ -51,7 +57,7 @@ const DialogField = ({
     if (!DialogComp) return null;
 
     return (
-      <DialogComp onClick={openDialog} value={value} {...props} {...others}>
+      <DialogComp onClick={onOpen} value={value} {...props} {...others}>
         <Icon />
       </DialogComp>
     );
@@ -59,9 +65,9 @@ const DialogField = ({
 
   return (
     <div>
-      <ActualField {...dialogTypes[type]} />
-      <Dialog {...dialogOptions} open={isOpen} onClose={closeDialog}>
-        <ContentView />
+      <ActualField {...dialogTypes[dialogType]} />
+      <Dialog open={isOpen} onClose={onClose}>
+        <DialogContent>{ContentView}</DialogContent>
         <DialogActions>
           {dialogOptions.map((f, idx) => (
             <Button key={f.id} onClick={f.onClick}>

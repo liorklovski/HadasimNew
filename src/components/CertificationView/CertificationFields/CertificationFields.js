@@ -1,7 +1,44 @@
 import React from "react";
 import FieldBlock from "../../Dynamic/FieldBlock/FieldBlock";
+import SoldierTableView from "../../SoldierTableView/SoldierTableView";
 
-const CertificationFields = ({ props = {}, isDisabled = false, onChange }) => {
+import Search from "../../Dynamic/Search/Search";
+
+// Const import
+import { consts } from "../../APICalls/constVars";
+import { getDataByRest } from "../../APICalls/APICalls";
+
+// Icon:
+import { PersonAdd as PersonAddIcon } from "@material-ui/icons";
+
+const CertificationFields = ({
+  props = {},
+  isDisabled = false,
+  onChange,
+  isOpen = false,
+  onCloseDialog,
+  onOpenDialog,
+  onChangeDialog,
+  handleDateChange
+}) => {
+  const SoldiersView = () => {
+    //   var data = getDataByRest({
+    //     url: consts.usersGet
+    //   });
+
+    //TEMP
+    var data = [
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" },
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" },
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" },
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" },
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" },
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" },
+      { DESCRIPTION: "משהו משהו", OBJECT_ID: "2233" }
+    ];
+    // TEMP
+    return <Search data={data} handleClick={onChangeDialog} />;
+  };
   const fieldGrid = {
     rows: "1fr 1fr",
     columns: "1fr 1fr 1fr"
@@ -18,14 +55,18 @@ const CertificationFields = ({ props = {}, isDisabled = false, onChange }) => {
     },
     {
       fieldType: "dialog", // BP dialog
-      props: {
-        soldierId: props.soldierId,
-        id: props.signatureId,
-        table: false
-      },
+      // props: {
+      //   soldierId: props.soldierId,
+      //   id: props.signatureId,
+      //   table: false
+      // },
+      isOpen: isOpen,
+      onClose: onCloseDialog,
+      onOpen: onOpenDialog,
+      icon: PersonAddIcon,
+      dialogType: "text",
       value: props.signature,
-      onChange: onChange,
-      onChangeId: onChange("signature"),
+      contentView: SoldiersView(),
       label: "חתימה",
       disabled: isDisabled
     },
@@ -43,11 +84,8 @@ const CertificationFields = ({ props = {}, isDisabled = false, onChange }) => {
       fieldType: "date",
       maxDateMessage: "תאריך התחלה לא יכול להיות גדול מתאריך סיום",
       label: "תאריך התחלה",
-      value:
-        props.startDate !== "0000-00-00" && props.startDate !== ""
-          ? props.startDate
-          : Date.now(),
-      onChange: onChange("startDate"),
+      value: props.startDate,
+      onChange: handleDateChange("startDate"),
       autoOk: true,
       disabled: isDisabled
     },
@@ -55,10 +93,7 @@ const CertificationFields = ({ props = {}, isDisabled = false, onChange }) => {
       fieldType: "date",
       minDateMessage: "תאריך סיום לא יכול להיות קטן מתאריך התחלה",
       label: "תאריך סיום",
-      value:
-        props.endDate !== "0000-00-00" && props.endDate !== ""
-          ? props.endDate
-          : Date.now(),
+      value: props.endDate,
       disabled: true
     },
     {

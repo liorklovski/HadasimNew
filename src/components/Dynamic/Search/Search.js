@@ -18,7 +18,7 @@ const cellStyleDefault = {
 };
 
 const Search = ({
-  data = [],
+  data,
   columns = [
     {
       title: "שם",
