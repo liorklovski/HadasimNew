@@ -49,7 +49,7 @@ const SoldierTableView = ({ templGuid }) => {
       isOpen={isOpen}
       onOpen={openDialog}
       onClose={closeDialog}
-      disabled={templGuid === "" ? true : false}
+      // disabled={templGuid === "" ? true : false}
       dialogType="button"
       icon={PersonAddIcon}
       contentView={

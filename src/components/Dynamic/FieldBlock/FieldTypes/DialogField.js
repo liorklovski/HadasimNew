@@ -21,7 +21,7 @@ const DialogField = ({
   icon: Icon,
   contentView: ContentView,
   dialogOptions = [],
-  dialogActions,
+  dialogActions = [],
   ...others
 }) => {
   // const [isDialogOpen, setIsDialogOpen] = useState(isOpen);
@@ -69,7 +69,7 @@ const DialogField = ({
       <Dialog open={isOpen} onClose={onClose}>
         <DialogContent>{ContentView}</DialogContent>
         <DialogActions>
-          {dialogOptions.map((f, idx) => (
+          {dialogActions.map((f, idx) => (
             <Button key={f.id} onClick={f.onClick}>
               {f.text}
             </Button>

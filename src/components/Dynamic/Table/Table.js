@@ -94,64 +94,66 @@ class Table extends React.Component {
     });
   render() {
     return (
-      <MaterialTable
-        icons={{
-          Filter: () => <FilterListIcon />,
-          ResetSearch: () => <ClearIcon />,
-          Search: () => <SearchIcon />,
-          Delete: () =>
-            this.props.editableType === "edit" ? <div /> : <DeleteIcon />,
-          Edit: () => <EditIcon />,
-          Add: () =>
-            this.props.isDisabled || this.props.editableType === "edit" ? (
-              <div />
-            ) : (
-              <AddIcon />
-            ),
-          Check: () => <CheckIcon />,
-          Clear: () => <ClearIcon />
-        }}
-        onRowClick={this.props.handleClick}
-        columns={this.props.columns}
-        data={this.props.data}
-        editable={
-          this.props.isDisabled || !this.props.editableType
-            ? {}
-            : this.props.editableType === "all"
-            ? {
-                onRowUpdate: this.onRowUpdate,
-                onRowAdd: this.onRowAdd,
-                onRowDelete: this.onRowDelete
-              }
-            : { onRowUpdate: this.onRowUpdate }
-        }
-        components={{
-          Container: props => (
-            <div
-              style={{
-                fontFamily: "Heebo"
-              }}
-            >
-              {props.children}
-            </div>
-          )
-        }}
-        options={{ ...this.props.options, disabled: this.props.isDisabled }}
-        localization={{
-          header: {
-            actions: " פעולות "
-          },
-          body: {
-            emptyDataSourceMessage: "אין מידע",
-            editRow: {
-              deleteText: "בטוח שברצונך למחוק שורה זאת?",
-              cancelTooltip: "בטל",
-              saveTooltip: "שמור",
-              invalidDateMessage: "תאריך לא חוקי"
-            }
+      <div dir="rtl">
+        <MaterialTable
+          icons={{
+            Filter: () => <FilterListIcon />,
+            ResetSearch: () => <ClearIcon />,
+            Search: () => <SearchIcon />,
+            Delete: () =>
+              this.props.editableType === "edit" ? <div /> : <DeleteIcon />,
+            Edit: () => <EditIcon />,
+            Add: () =>
+              this.props.isDisabled || this.props.editableType === "edit" ? (
+                <div />
+              ) : (
+                <AddIcon />
+              ),
+            Check: () => <CheckIcon />,
+            Clear: () => <ClearIcon />
+          }}
+          onRowClick={this.props.handleClick}
+          columns={this.props.columns}
+          data={this.props.data}
+          editable={
+            this.props.isDisabled || !this.props.editableType
+              ? {}
+              : this.props.editableType === "all"
+              ? {
+                  onRowUpdate: this.onRowUpdate,
+                  onRowAdd: this.onRowAdd,
+                  onRowDelete: this.onRowDelete
+                }
+              : { onRowUpdate: this.onRowUpdate }
           }
-        }}
-      />
+          components={{
+            Container: props => (
+              <div
+                style={{
+                  fontFamily: "Heebo"
+                }}
+              >
+                {props.children}
+              </div>
+            )
+          }}
+          options={{ ...this.props.options, disabled: this.props.isDisabled }}
+          localization={{
+            header: {
+              actions: " פעולות "
+            },
+            body: {
+              emptyDataSourceMessage: "אין מידע",
+              editRow: {
+                deleteText: "בטוח שברצונך למחוק שורה זאת?",
+                cancelTooltip: "בטל",
+                saveTooltip: "שמור",
+                invalidDateMessage: "תאריך לא חוקי"
+              }
+            }
+          }}
+        />
+      </div>
     );
   }
 }

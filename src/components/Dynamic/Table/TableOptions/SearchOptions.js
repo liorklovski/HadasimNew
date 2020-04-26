@@ -8,18 +8,18 @@ const SearchOptions = ({ rowsNum = 15 }) => {
     showTitle: false,
     searchFieldAlignment: "right",
     headerStyle: {
-      textAlign: "center",
-      fontFamily: "Heebo",
-      fontSize: 25,
-      paddingRight: "1em"
+      textAlign: "center"
+      // fontFamily: "Heebo",
+      // fontSize: 25,
+      // paddingRight: "1em"
     },
     searchFieldStyle: {
       direction: "rtl",
       position: "center",
-      marginLeft: "25vw",
-      backgroundColor: "rgba(251, 251, 253, 0.88)",
-      height: "5vh",
-      borderRadius: "10px"
+      marginLeft: "25vw"
+      // backgroundColor: "rgba(251, 251, 253, 0.88)",
+      // height: "5vh",
+      // borderRadius: "10px"
     }
   };
 };

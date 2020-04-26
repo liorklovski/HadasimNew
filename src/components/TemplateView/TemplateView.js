@@ -33,6 +33,8 @@ class TemplateView extends Component {
   };
 
   componentDidMount = () => {
+    this.setState({ isDisabled: this.props.isDisabled });
+    if (!this.props.match) return;
     if (this.props.match.params.id === undefined) {
       this.setState({ isDisabled: false, id: this.props.match.params.id });
     } else {
@@ -67,7 +69,7 @@ class TemplateView extends Component {
         CATEGORY: this.state.category,
         SOLDIER: this.state.soldier
       },
-      OBJECT_ID: this.props.match.params.id,
+      OBJECT_ID: this.props.match ? this.props.match.params.id : "",
       STEPS: this.state.steps
     };
 
@@ -98,7 +100,8 @@ class TemplateView extends Component {
     // Call table
     return (
       <div>
-        <Paper className="form-page" elevation={3}>
+        {/* <Paper className="form-page" elevation={3}> */}
+        <div hidden={!this.props.showFrame}>
           <FrameView
             templGuid={this.state.templGuid}
             isLoading={this.state.isLoading}
@@ -106,27 +109,28 @@ class TemplateView extends Component {
             handleOnEdit={this.handleOnEdit}
             handleOnSave={this.handleOnSave}
           />
-          <div className="report-form-grid">
-            <TemplateFields
-              onChange={this.handleChangeWithName}
-              isDisabled={this.state.isDisabled}
-              props={{
-                name: this.state.name,
-                id: this.state.id,
-                category: this.state.category,
-                soldier: this.state.soldier,
-                status: this.state.status,
-                long: this.state.long
-              }}
-            />
-          </div>
-          <TemplateTable
-            onUpdateSteps={this.onUpdateSteps}
-            data={this.state.steps}
+        </div>
+        <div className="report-form-grid">
+          <TemplateFields
+            onChange={this.handleChangeWithName}
             isDisabled={this.state.isDisabled}
-            rowsNum={this.state.numRows}
+            props={{
+              name: this.state.name,
+              id: this.state.id,
+              category: this.state.category,
+              soldier: this.state.soldier,
+              status: this.state.status,
+              long: this.state.long
+            }}
           />
-        </Paper>
+        </div>
+        <TemplateTable
+          onUpdateSteps={this.onUpdateSteps}
+          data={this.state.steps}
+          isDisabled={this.state.isDisabled}
+          rowsNum={this.state.numRows}
+        />
+        {/* </Paper> */}
       </div>
     );
   }

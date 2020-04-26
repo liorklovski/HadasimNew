@@ -10,11 +10,12 @@ import Table from "../Table/Table";
 import SearchOptions from "../Table/TableOptions/SearchOptions";
 
 const cellStyleDefault = {
-  textAlign: "center",
-  fontFamily: "Heebo",
-  fontSize: 17,
-  backgroundColor: "rgba(251, 251, 253, 0.58)",
-  width: "50%"
+  // textAlign: "center",
+  // fontFamily: "Heebo",
+  // fontSize: 17,
+  // backgroundColor: "rgba(251, 251, 253, 0.58)",
+  // width: "50%"
+  direction: "rtl"
 };
 
 const Search = ({
