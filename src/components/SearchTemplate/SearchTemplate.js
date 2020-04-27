@@ -25,12 +25,15 @@ const cellStyleDefault = {
 
 const SearchTemplate = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currRow, setCurrRow] = useState();
+  const [isViewDisabled, setIsViewDisabled] = useState(false);
 
   const openDialog = () => {
     setIsOpen(true);
   };
 
   const closeDialog = () => {
+    setIsViewDisabled(false);
     setIsOpen(false);
   };
   const dialogActions = [{ text: "סיום", onClick: closeDialog }];
@@ -46,7 +49,10 @@ const SearchTemplate = () => {
     return data;
   };
   const handleClick = (event, row) => {
-    return process.env.PUBLIC_URL + "/TemplateView/" + row.OBJECT_ID;
+    setCurrRow(row.OBJECT_ID);
+    setIsViewDisabled(true);
+    setIsOpen(true);
+    // return process.env.PUBLIC_URL + "/TemplateView/" + row.OBJECT_ID;
   };
   return (
     <Paper className="search-page" elevation={3}>
@@ -57,7 +63,9 @@ const SearchTemplate = () => {
         dialogType="button"
         icon={AddIcon}
         dialogActions={dialogActions}
-        contentView={<TemplateView showFrame={true} isDisabled={false} />}
+        contentView={
+          <TemplateView isDisabled={isViewDisabled} objID={currRow} />
+        }
       />
       <Search
         data={getSearchData()}
@@ -74,12 +82,12 @@ const SearchTemplate = () => {
             cellStyle: cellStyleDefault
           },
           {
-            title: "שם",
+            title: "שם תבנית",
             field: "DESCRIPTION",
             cellStyle: cellStyleDefault
           },
           {
-            title: "מזהה",
+            title: "מס׳ זיהוי",
             field: "OBJECT_ID",
             cellStyle: cellStyleDefault
           }

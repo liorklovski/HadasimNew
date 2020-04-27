@@ -32,6 +32,7 @@ class TemplateView extends Component {
   };
 
   componentDidMount = () => {
+    this.setState({ isDisabled: this.props.isDisabled });
     // const bpRest = consts.usersGet;
     // const bpData = getDataByRest({ url: bpRest });
     // var columnsDet = {};
@@ -40,7 +41,7 @@ class TemplateView extends Component {
     // });
     // this.setState({ columnsDet: columnsDet });
     // const data = getDataByRest({
-    //   url: consts.getCerDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
+    //   url: consts.getCerDet + `/{"OBJECT_ID":"${this.props.objID}"}`
     // });
     // this.setState({
     //   name: data.GEN_DET.DESCRIPTION,
@@ -64,14 +65,14 @@ class TemplateView extends Component {
 
     const paramsDet = {
       GEN_DET: {
-        OBJECT_ID: this.props.match.params.id,
+        OBJECT_ID: this.props.objID,
         START_DATE: this.state.startDate,
         END_DATE: this.state.endDate,
         GRADE: this.state.grade,
         EXTEN: this.state.extension,
         IN_CHARGE: this.state.signatureId
       },
-      OBJECT_ID: this.props.match.params.id,
+      OBJECT_ID: this.props.objID,
       STEPS: this.state.steps
     };
 

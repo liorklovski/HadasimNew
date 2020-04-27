@@ -16,6 +16,7 @@ const DialogField = ({
   isOpen,
   dialogType,
   handleOk,
+  hidden = false,
   // onChange,
   // onRowClicked,
   icon: Icon,
@@ -57,9 +58,11 @@ const DialogField = ({
     if (!DialogComp) return null;
 
     return (
-      <DialogComp onClick={onOpen} value={value} {...props} {...others}>
-        <Icon />
-      </DialogComp>
+      <div hidden={hidden}>
+        <DialogComp onClick={onOpen} value={value} {...props} {...others}>
+          <Icon />
+        </DialogComp>
+      </div>
     );
   };
 

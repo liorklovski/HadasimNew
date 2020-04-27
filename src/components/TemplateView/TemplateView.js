@@ -34,13 +34,16 @@ class TemplateView extends Component {
 
   componentDidMount = () => {
     this.setState({ isDisabled: this.props.isDisabled });
-    if (!this.props.match) return;
-    if (this.props.match.params.id === undefined) {
-      this.setState({ isDisabled: false, id: this.props.match.params.id });
-    } else {
+    //***TEMP */
+    // if (!this.props.match) return;
+    // if (this.props.match.params.id === undefined) {
+    //   this.setState({ isDisabled: false, id: this.props.match.params.id });
+    // } else {
+    //***TEMP */
+    if (this.props.objID !== undefined) {
       // const data = getDataByRest({
       //   url:
-      //     consts.getHadasDet + `/{"OBJECT_ID":"${this.props.match.params.id}"}`
+      //     consts.getHadasDet + `/{"OBJECT_ID":"${this.props.objID}"}`
       // });
       // this.setState({
       //   id: this.props.match.params.id,
@@ -69,7 +72,7 @@ class TemplateView extends Component {
         CATEGORY: this.state.category,
         SOLDIER: this.state.soldier
       },
-      OBJECT_ID: this.props.match ? this.props.match.params.id : "",
+      OBJECT_ID: this.props.objID ? this.props.objID : "",
       STEPS: this.state.steps
     };
 
@@ -101,15 +104,15 @@ class TemplateView extends Component {
     return (
       <div>
         {/* <Paper className="form-page" elevation={3}> */}
-        <div hidden={!this.props.showFrame}>
-          <FrameView
-            templGuid={this.state.templGuid}
-            isLoading={this.state.isLoading}
-            isDisabled={this.state.isDisabled}
-            handleOnEdit={this.handleOnEdit}
-            handleOnSave={this.handleOnSave}
-          />
-        </div>
+        {/* <div hidden={!this.props.showFrame}> */}
+        <FrameView
+          templGuid={this.state.templGuid}
+          isLoading={this.state.isLoading}
+          isDisabled={this.state.isDisabled}
+          handleOnEdit={this.handleOnEdit}
+          handleOnSave={this.handleOnSave}
+        />
+        {/* </div> */}
         <div className="report-form-grid">
           <TemplateFields
             onChange={this.handleChangeWithName}
