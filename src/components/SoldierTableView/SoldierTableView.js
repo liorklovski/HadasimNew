@@ -5,11 +5,12 @@ import Search from "../Dynamic/Search/Search";
 import { consts } from "../APICalls/constVars";
 import { getDataByRest } from "../APICalls/APICalls";
 import DialogField from "../Dynamic/FieldBlock/FieldTypes/DialogField";
+// import Alert from '@material-ui/lab/Alert';
 // Icons
 import { PersonAdd as PersonAddIcon } from "@material-ui/icons";
-import { TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 
-const SoldierTableView = ({ templGuid }) => {
+const SoldierTableView = ({ templGuid, triggerAlert }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openDialog = () => {
@@ -38,22 +39,34 @@ const SoldierTableView = ({ templGuid }) => {
     return data;
   };
   const handleClick = (event, row) => {
+    // TODO: Mark the row
     //   var data = getDataByRest({
     //     url: consts.followUp + `/{"SOLDIER_ID":"${row.OBJID}","TEMPL_GUID":"${this.props.templGuid}"}`
     //   });
-
-    return process.env.PUBLIC_URL + "/CertificationView/" + row.OBJECT_ID;
+    closeDialog();
+    triggerAlert();
+    // return (<Alert severity="success">החיילים שיוכו בהצלחה</Alert>)
+    // return process.env.PUBLIC_URL + "/CertificationView/" + row.OBJECT_ID;
   };
+
+  const dialogActions = [
+    { text: "שיוך", onClick: handleClick },
+    { text: "ביטול", onClick: closeDialog }
+  ];
   return (
     <DialogField
       isOpen={isOpen}
       onOpen={openDialog}
       onClose={closeDialog}
+      dialogActions={dialogActions}
       // disabled={templGuid === "" ? true : false}
       dialogType="button"
       icon={PersonAddIcon}
       contentView={
-        <Search data={getSoldiersData()} handleClick={handleClick} />
+        <div>
+          <Search data={getSoldiersData()} handleClick={handleClick} />
+          {/* <Button onClick={handleClick}>שיוך</Button> */}
+        </div>
       }
     />
   );

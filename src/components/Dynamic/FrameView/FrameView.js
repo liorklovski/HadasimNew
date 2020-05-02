@@ -16,6 +16,7 @@ const rows = "1fr";
 const columns = "1fr 1fr 1fr";
 
 const FrameView = ({
+  triggerAlert,
   templGuid = "",
   isLoading = false,
   isCertification = false,
@@ -59,7 +60,10 @@ const FrameView = ({
             {isCertification ? (
               <div />
             ) : (
-              <SoldierTableView templGuid={templGuid} />
+              <SoldierTableView
+                templGuid={templGuid}
+                triggerAlert={triggerAlert}
+              />
             )}
           </div>
         </Cell>

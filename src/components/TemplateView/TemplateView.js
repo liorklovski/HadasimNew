@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 
+import { Alert } from "@material-ui/lab";
+
 // Components Import
 import TemplateTable from "./TemplateTable/TemplateTable";
 import TemplateFields from "./TemplateFields/TemplateFields";
 import { getDataByRest, saveDataByRest } from "../APICalls/APICalls";
+// import Alert from "@material-ui/lab/Alert";
 
 // Frame import
 import FrameView from "../Dynamic/FrameView/FrameView";
@@ -28,6 +31,7 @@ class TemplateView extends Component {
     status: "",
     steps: [],
     numRows: "1",
+    isAlert: false,
     isDisabled: true,
     isLoading: false
   };
@@ -89,6 +93,17 @@ class TemplateView extends Component {
   handleOnEdit = () => {
     this.setState({ isDisabled: false });
   };
+  handleClickShowAlert() {
+    this.setState({
+      isAlert: true
+    });
+
+    setTimeout(() => {
+      this.setState({
+        isAlert: false
+      });
+    }, 2000);
+  }
   handleChangeWithName = name => event => {
     this.setState({
       [name]: event.target.value
@@ -105,7 +120,11 @@ class TemplateView extends Component {
       <div>
         {/* <Paper className="form-page" elevation={3}> */}
         {/* <div hidden={!this.props.showFrame}> */}
+        <div hidden={!this.state.isAlert}>
+          <Alert severity="success">החיילים שיוכו בהצלחה</Alert>
+        </div>
         <FrameView
+          triggerAlert={this.handleClickShowAlert}
           templGuid={this.state.templGuid}
           isLoading={this.state.isLoading}
           isDisabled={this.state.isDisabled}
